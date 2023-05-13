@@ -1,3 +1,5 @@
 python 3.x  
-pip install flask  
-run run.bat  
+1. pip install flask  
+2. double click run.bat  
+  
+The format of the questions adheres strictly to the example questions in question.txt.
