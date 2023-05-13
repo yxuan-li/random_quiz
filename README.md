@@ -1,3 +1,5 @@
+Random quiz program built with Python Flask and HTML  
+  
 python 3.x  
 1. pip install flask  
 2. double click run.bat  
