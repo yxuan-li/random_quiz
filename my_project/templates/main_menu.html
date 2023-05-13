@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Main Menu</title>
+</head>
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  <ul class=flashes>
+  {% for category, message in messages %}
+    <li class="{{ category }}">{{ message }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+
+    <h1>Main Menu</h1>
+    <form action="/start_quiz" method="POST">
+    <label for="num_questions">Number of questions:</label>
+    <select name="num_questions" id="num_questions">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+    </select><br><br>
+    <input type="radio" id="show_results_end" name="quiz_mode" value="show_results_end" checked>
+    <label for="show_results_end">Show results at the end</label><br>
+    <input type="radio" id="show_results_immediately" name="quiz_mode" value="show_results_immediately">
+    <label for="show_results_immediately">Show results immediately</label><br><br>
+    <input type="submit" value="Start Quiz">
+	</form>
+
+</body>
+</html>

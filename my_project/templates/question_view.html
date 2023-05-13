@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+	
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Question View</title>
+	<script>
+        function submitAndRedirect() {
+            document.getElementById("answer-form").submit();
+            if ("{{ session.quiz_mode }}" == "show_results_end") {
+                location.href = '/next_question';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>{{ question.text }}</h1>
+    <form id="answer-form" action="/submit_answer" method="POST">
+		{% for option in question.options %}
+            {% set checked = option[0] in request.form.getlist('answer') %}
+            {% set disabled = 'submitted' in session %}
+            {% if question.question_type == 'single' %}
+                <input type="radio" id="{{ option[0] }}" name="answer" value="{{ option[0] }}" {% if checked %}checked{% endif %} {% if disabled %}disabled{% endif %}>
+            {% else %}
+                <input type="checkbox" id="{{ option[0] }}" name="answer" value="{{ option[0] }}" {% if checked %}checked{% endif %} {% if disabled %}disabled{% endif %}>
+            {% endif %}
+            <label for="{{ option[0] }}">{{ option }}</label><br>
+        {% endfor %}
+		{% if 'submitted' not in session %}
+		<button type="submit" id="submit-button">Submit</button>
+		{% endif %}
+		<script>
+        console.log("The length of shuffled_options is:", {{ shuffled_options|length }});
+		</script>
+        <p>Question {{ session.current_question + 1 }} of {{ session.question_ids|length }}</p>
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+</body>
+</html>

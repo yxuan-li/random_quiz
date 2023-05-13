@@ -1,0 +1,20 @@
+    <form id="answer-form" action="/submit_answer" method="POST">
+		{% set shuffled_options = question.options|shuffle %}
+		{% for option in shuffled_options %}
+            {% set checked = option[0] in request.form.getlist('answer') %}
+            {% set disabled = 'submitted' in session %}
+            {% if question.question_type == 'single' %}
+                <input type="radio" id="{{ option[0] }}" name="answer" value="{{ option[0] }}" {% if checked %}checked{% endif %} {% if disabled %}disabled{% endif %}>
+            {% else %}
+                <input type="checkbox" id="{{ option[0] }}" name="answer" value="{{ option[0] }}" {% if checked %}checked{% endif %} {% if disabled %}disabled{% endif %}>
+            {% endif %}
+            <label for="{{ option[0] }}">{{ option }}</label><br>
+        {% endfor %}
+		{% if 'submitted' not in session %}
+		<button type="submit" id="submit-button">Submit</button>
+		{% endif %}
+		<script>
+        console.log("The length of shuffled_options is:", {{ shuffled_options|length }});
+		</script>
+        <p>Question {{ session.current_question + 1 }} of {{ session.question_ids|length }}</p>
+    </form>
